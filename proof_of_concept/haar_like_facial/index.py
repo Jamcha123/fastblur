@@ -31,7 +31,8 @@ def detection2(frame):
         frame[y2:y2+h2, x2:x2+w2] = roi
     
     return frame
-cam = cv.VideoCapture(0)
+cam = cv.VideoCapture(1)
+print(cam.isOpened())
 
 index = 1
 while True: 

@@ -1,7 +1,6 @@
 import numpy as np 
 import cv2 as cv
 import os 
-import mediapipe as mp
 
 model_path = "face_detection_yunet_2023mar.onnx"
 face_detector = cv.FaceDetectorYN.create(model_path, "", (320, 320))
@@ -9,7 +8,8 @@ face_detector.setScoreThreshold(0.9)   # confidence threshold
 face_detector.setNMSThreshold(0.3)     # non-max suppression
 face_detector.setInputSize((640, 480)) # you might need to change the input size to match your frame size
 
-cam = cv.VideoCapture(0)
+cam = cv.VideoCapture(1)
+print(cam.isOpened())
 
 index = 1
 while True:
@@ -30,7 +30,9 @@ while True:
                 roi = cv.GaussianBlur(roi, (103, 103), 30)
                 frame[y:y+h, x:x+w] = roi
 
-            cv.imshow("frame", frame)
+        cv.imshow("frame", frame)
+        
+        
         if cv.waitKey(1) == ord("q"):
             break
     
