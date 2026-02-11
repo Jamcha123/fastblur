@@ -1,1 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
+
+.background{
+    background-size: 300%;
+    animation: value 30s ease-in-out infinite;
+}
+
+h1, p{
+    font-family: "DM Mono", monospace;
+    font-style: normal;
+}
+
+@keyframes value {
+    from,to{background-position: 0%;}
+    50%{background-position: 100%;}
+}

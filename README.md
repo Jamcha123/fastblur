@@ -1,2 +1,2 @@
-# blurImage
-BlurImage - Keep Your Privacy, Blur Your Face
+# FastBlur
+FastBlur - Keep Your Privacy, Blur Your Face
