@@ -46,7 +46,7 @@ const storage = getStorage(app)
 function AddBackground(){
   return(
     <div className="background fixed -z-1 top-0 left-0 w-full h-screen m-auto p-0 bg-linear-60 from-violet-950 via-pink-950 to-purple-950 ">
-      <div className="fixed top-0 left-0 z-0 w-full h-full m-auto p-0 bg-black opacity-[0.85] flex flex-col align-middle justify-center text-center ">
+      <div className="fixed top-0 left-0 z-0 w-full h-full m-auto p-0 bg-black opacity-[0.75] flex flex-col align-middle justify-center text-center ">
 
       </div>
     </div>
@@ -57,7 +57,7 @@ function AddNavbar(){
   const [active, setActive] = useState(false)  
   const [hover, setHover] = useState(false)  
   return(
-    <nav className="relative z-99 w-full h-[8vh] m-auto p-0 bg-black flex flex-col align-middle justify-center text-center ">
+    <nav className="fixed top-0 left-0 z-99 w-full h-[8vh] m-auto p-0 bg-black flex flex-col align-middle justify-center text-center ">
       <ul className="relative flex flex-row align-middle justify-center text-center w-full h-[8vh] m-auto p-0 bg-transparent  ">
         <div className="relative w-full m-auto p-0 h-full bg-transparent flex flex-row align-middle justify-center text-center ">
           <motion.div onClick={() => setActive(true)} onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)} className="relative w-[3em] cursor-pointer h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
@@ -80,8 +80,18 @@ function AddNavbar(){
             <motion.div initial={{translateX: 0 + "%"}} animate={{translateX: hover? -25 + "%" : 0 + "%"}} className="relative w-full h-[0.4rem] rounded-md m-auto mt-0 mb-0 p-0 bg-white "></motion.div>
           </motion.div>
         </div>
-        <div className="relative w-full h-[92vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center  ">
-
+        <div className="relative w-full h-[72vh] m-auto p-0 bg-transparent flex flex-col align-middle  ">
+          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <li className="text-xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#header">Landing Page</a></li>
+          </div>
+          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <li className="text-xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#main">Main App</a></li>
+          </div>
+          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <li className="text-xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#about">About Fastblur</a></li>
+          </div>
+        </div>
+        <div className="relative w-full h-[20vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center  ">
         </div>
       </motion.ul>
     </nav>
@@ -93,28 +103,63 @@ function AddMain(){
   })
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-      <header className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-[25%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <h1 className="text-5xl text-white font-light">
-            FastBlur - Hide Your Face <br />
-            Upload A Image, Blur Every Face
+      <header id="header" className="relative w-full h-[85vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+        <div className="relative w-full h-[25%] mt-[5%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <h1 className="text-5xl text-white font-medium flex flex-col align-middle justify-center text-center">
+            <h1 className="flex flex-row align-middle justify-center text-center">FastBlur <h1 className="hidden md:block ml-[2%] "> - Hide Your Face</h1></h1>
+            <h1 className="hidden lg:block">Upload A Image, Blur Faces</h1>
           </h1>
         </div>
-        <div className="relative w-full h-[50%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-          <div className="relative w-[75%] h-[75%] m-auto p-0 bg-slate-950 flex flex-col align-middle justify-center text-center ">
-
+        <div className="relative w-full h-[55%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <div className="relative w-full overflow-hidden h-full m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
+            <div className="relative w-[75%] h-full m-auto p-0 bg-transparent overflow-hidden flex flex-row align-middle justify-center text-center gap-2 ">
+              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent " src="" alt="" />
+                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                  <h1 className="text-xl text-white font-light ">
+                    Haar Like Facial bluring
+                  </h1>
+                </div>
+              </motion.div>
+              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent " src="" alt="" />
+                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                  <h1 className="text-xl text-white font-light ">
+                    Yunet Facial bluring
+                  </h1>
+                </div>
+              </motion.div>
+              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent " src="" alt="" />
+                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                  <h1 className="text-xl text-white font-light ">
+                    Yolo Facial bluring
+                  </h1>
+                </div>
+              </motion.div>
+              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent " src="" alt="" />
+                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+                  <h1 className="text-xl text-white font-light ">
+                    Mediapipe Facial bluring
+                  </h1>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
+        <div className="relative w-full h-[20%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <motion.button className="relative w-[10em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
+            To The Main App
+          </motion.button>
+        </div>
       </header>
-      <section className="relative w-full h-[85vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
+      <section id="main" className="relative w-full h-[85vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
+        
+      </section>
+      <section id="about" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
 
       </section>
-      <section className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-
-      </section>
-      <footer className="relative w-full h-[50vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-
-      </footer>
     </div>
   )
 }

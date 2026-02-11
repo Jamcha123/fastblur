@@ -11,6 +11,11 @@ h1, p{
     font-style: normal;
 }
 
+li a{
+    font-family: "Raleway", sans-serif;
+    font-style: normal;
+}
+
 @keyframes value {
     from,to{background-position: 0%;}
     50%{background-position: 100%;}
