@@ -6,7 +6,7 @@
     animation: value 30s ease-in-out infinite;
 }
 
-h1, p{
+h1, p, h2, h3, h4{
     font-family: "DM Mono", monospace;
     font-style: normal;
 }

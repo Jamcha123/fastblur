@@ -7,6 +7,7 @@ import * as THREE from 'three'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth'
 import {} from 'firebase/ai'
+import image from './assets/image.svg'
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 
@@ -106,8 +107,8 @@ function AddMain(){
       <header id="header" className="relative w-full h-[85vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-[25%] mt-[5%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
           <h1 className="text-5xl text-white font-medium flex flex-col align-middle justify-center text-center">
-            <h1 className="flex flex-row align-middle justify-center text-center">FastBlur <h1 className="hidden md:block ml-[2%] "> - Hide Your Face</h1></h1>
-            <h1 className="hidden lg:block">Upload A Image, Blur Faces</h1>
+            <p className="flex flex-row align-middle justify-center text-center">FastBlur <strong className="hidden md:block ml-[2%] "> - Hide Your Face</strong></p>
+            <p className="hidden lg:block">Upload A Image, Blur Faces</p>
           </h1>
         </div>
         <div className="relative w-full h-[55%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
@@ -149,13 +150,22 @@ function AddMain(){
           </div>
         </div>
         <div className="relative w-full h-[20%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <motion.button className="relative w-[10em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
+          <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} onClick={() => {window.location.href = "#main"}} className="relative w-[10em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
             To The Main App
           </motion.button>
         </div>
       </header>
       <section id="main" className="relative w-full h-[85vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
-        
+        <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <div className="relative w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+            <img src={image} style={{scale: 0.25}} alt="" />
+          </div>
+        </div>
+        <form action="" method="get" id="form" className="relative w-full h-[20%] m-auto p-0 flex flex-col align-middle justify-center text-center ">
+          <motion.button type="submit" initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[17em] h-[3em] m-auto p-0 border-lime-600 border-2 cursor-pointer bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle justify-center text-center text-white text-xl font-light underline underline-offset-4 ">
+            Upload Your Images Here
+          </motion.button>
+        </form>
       </section>
       <section id="about" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
 
