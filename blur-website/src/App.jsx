@@ -12,6 +12,9 @@ import yunet from './assets/yunet.jpg'
 import haar from './assets/haar.jpg'
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
+import * as FaceAPI from 'face-api.js'
+
+await FaceAPI.nets.ssdMobilenetv1.loadFromUri('/models');
 
 const config = {
   apiKey: "AIzaSyBJCkmrGO_eZMh3x6-EQ8cQXHj7Omy7DTY",
@@ -126,10 +129,38 @@ function AddMain(){
     $("#image").empty()
 
     const image = document.createElement("img")
+    image.style.zIndex = 90
     image.classList.add("images")
     image.src = data
+    image.style.transform = "translateY(50%)"
 
-    document.getElementById("image").appendChild(image)
+    const detections = await FaceAPI.detectAllFaces(image)
+
+    const canvas = document.createElement("canvas")
+    canvas.width = image.width
+    canvas.height = image.height
+    canvas.style.position = "relative"
+    canvas.style.top = 0 
+    canvas.style.left = 0
+    canvas.style.transform = "translateY(-50%)"
+    canvas.style.zIndex = 91
+
+    const ctx = canvas.getContext("2d")
+
+    if(detections.length >= 1){
+      detections.forEach((ev) => {
+        const { x, y, width, height } = ev.box
+        ctx.strokeStyle = "red"
+        ctx.fillRect(x, y, width, height)
+        ctx.fillStyle = "white"
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height)
+      })
+    }
+    $("#image").empty()
+    document.getElementById("image").append(image)
+    document.getElementById("image").append(canvas)
+
   }
   useEffect(() => {
   })
@@ -187,20 +218,19 @@ function AddMain(){
       </header>
       <section id="main" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="image" onClick={imageUploader} className="relative cursor-pointer w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+          <div id="image" onClick={imageUploader} className="relative cursor-pointer w-160 h-120 m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
             <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
             <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
               <h1 className="text-xl text-white font-medium ">
-                Upload Your Images Here <br />
+                Press To Upload Your Images Here (Be Patient, It takes a while) <br />
                 Only .png, .jpeg and .jpg image files <br />
-                Press Here To Upload A Image <br />
                 I Do Everything Locally (No Storage On A Remote Server) <br />
               </h1>
             </div>
           </div>
         </div>
       </section>
-      <section id="cam" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
+      <section id="cam" className="relative w-full h-[75vh] m-auto p-0 bg-transparent hidden gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
           <div id="video" onClick={imageUploader} className="relative cursor-pointer w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
             <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
