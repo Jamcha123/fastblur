@@ -11,7 +11,7 @@ h1, p, h2, h3, h4{
     font-style: normal;
 }
 
-li a{
+li a, button, input{
     font-family: "Raleway", sans-serif;
     font-style: normal;
 }
@@ -19,4 +19,11 @@ li a{
 @keyframes value {
     from,to{background-position: 0%;}
     50%{background-position: 100%;}
+}
+
+@layer components{
+    .images{
+        @apply relative w-full h-full m-auto p-0 bg-transparent
+        flex flex-col align-middle justify-center text-center
+    }
 }
