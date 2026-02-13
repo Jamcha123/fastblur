@@ -17,7 +17,7 @@ import * as FaceAPI from 'face-api.js'
 await FaceAPI.nets.ssdMobilenetv1.loadFromUri('/models');
 
 const config = {
-  apiKey: "AIzaSyBJCkmrGO_eZMh3x6-EQ8cQXHj7Omy7DTY",
+  apiKey: "",
   authDomain: "blurimage-eb134.firebaseapp.com",
   projectId: "blurimage-eb134",
   storageBucket: "blurimage-eb134.firebasestorage.app",
