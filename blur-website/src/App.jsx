@@ -13,6 +13,20 @@ import haar from './assets/haar.jpg'
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import * as FaceAPI from 'face-api.js'
+import { FaceDetector, FilesetResolver } from '@mediapipe/tasks-vision'
+
+const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm")
+
+const face_detector = await FaceDetector.createFromOptions(
+  vision,
+  {
+    baseOptions: {
+      modelAssetPath: "/blaze_face_short_range.tflite"
+    }, 
+    runningMode: "VIDEO"
+  }
+)
+
 
 await FaceAPI.nets.ssdMobilenetv1.loadFromUri('/models');
 
@@ -91,7 +105,7 @@ function AddNavbar(){
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#header">Landing Page</a></li>
           </div>
           <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-            <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#main">Image Uploader</a></li>
+            <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#">Camera Recognition</a></li>
           </div>
           <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#about">About Fastblur</a></li>
@@ -105,65 +119,54 @@ function AddNavbar(){
 }
 
 function AddMain(){
-  const imageUploader = async () => {
-    const create_files = document.createElement("input")
-    create_files.type = "file"
-    create_files.click()
-
-    const items = new Promise((resolve) => {
-      create_files.addEventListener("change", (e) => {
-        resolve(create_files.files[0])
-      })
-    })
-
-    const reader = new FileReader()
-    const file_reading = new Promise(async (resolve) => {
-      reader.onload = (e) => {
-        const results = e.target.result
-        resolve(results)
-      }
-      reader.readAsDataURL(await items)
-    })
+  const videoUploader = async () => {
+    const video = document.createElement("video")
+    video.style.transform = "translateY(50%)"
     
-    const data = ((await file_reading))
-    $("#image").empty()
-
-    const image = document.createElement("img")
-    image.style.zIndex = 90
-    image.classList.add("images")
-    image.src = data
-    image.style.transform = "translateY(50%)"
-
-    const detections = await FaceAPI.detectAllFaces(image)
-
     const canvas = document.createElement("canvas")
-    canvas.width = image.width
-    canvas.height = image.height
-    canvas.style.position = "relative"
-    canvas.style.top = 0 
-    canvas.style.left = 0
     canvas.style.transform = "translateY(-50%)"
-    canvas.style.zIndex = 91
-
+    
     const ctx = canvas.getContext("2d")
 
-    if(detections.length >= 1){
-      detections.forEach((ev) => {
-        const { x, y, width, height } = ev.box
-        ctx.strokeStyle = "red"
-        ctx.fillRect(x, y, width, height)
-        ctx.fillStyle = "white"
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, width, height)
+    $("#video").empty()
+    async function record(){
+      window.navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(async (value) => {
+        video.srcObject = value
+        video.muted = true
+        await video.play()
+
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+
+        requestAnimationFrame(detection)
       })
     }
-    $("#image").empty()
-    document.getElementById("image").append(image)
-    document.getElementById("image").append(canvas)
 
+    let startTime = null
+    let [x, y, w, h] = [0, 0, 0, 0]
+    async function detection(){
+      if (!startTime) startTime = performance.now();
+      const timestamp = performance.now() - startTime;
+      const facial_detect = face_detector.detectForVideo(video, timestamp)
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      facial_detect.detections.forEach((e) => {
+        const {originX, originY, width, height} = e.boundingBox
+        
+        ctx.strokeStyle = "red"
+        ctx.strokeRect(originX, originY, width, height)
+        ctx.fillStyle = "gray"
+        ctx.fillRect(originX, originY, width, height)
+      })
+
+      requestAnimationFrame(detection)
+    }
+    document.getElementById("video").appendChild(video)
+    document.getElementById("video").appendChild(canvas)
+
+    record()
   }
-  useEffect(() => {
-  })
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
       <header id="header" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
@@ -211,14 +214,14 @@ function AddMain(){
           </div>
         </div>
         <div className="relative w-full h-[20%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} onClick={() => {window.location.href = "#main"}} className="relative w-[10em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
-            To The Main App
+          <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} onClick={() => {window.location.href = "#cam"}} className="relative w-[13em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
+            Try The Facial Recognition 
           </motion.button>
         </div>
       </header>
-      <section id="main" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
+      <section id="main" className="relative w-full h-[75vh] m-auto p-0 bg-transparent hidden gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="image" onClick={imageUploader} className="relative cursor-pointer w-160 h-120 m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+          <div id="image" className="relative cursor-pointer w-160 h-120 m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
             <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
             <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
               <h1 className="text-xl text-white font-medium ">
@@ -230,9 +233,9 @@ function AddMain(){
           </div>
         </div>
       </section>
-      <section id="cam" className="relative w-full h-[75vh] m-auto p-0 bg-transparent hidden gap-5 flex-col align-middle justify-center text-center ">
+      <section id="cam" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="video" onClick={imageUploader} className="relative cursor-pointer w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
             <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
             <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
               <h1 className="text-xl text-white font-medium ">
