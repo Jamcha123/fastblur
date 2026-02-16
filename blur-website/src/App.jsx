@@ -34,7 +34,7 @@ const face_detector = await FaceDetector.createFromOptions(
 await FaceAPI.nets.ssdMobilenetv1.loadFromUri('/models');
 
 const config = {
-  apiKey: "",
+  apiKey: "AIzaSyBJCkmrGO_eZMh3x6-EQ8cQXHj7Omy7DTY",
   authDomain: "blurimage-eb134.firebaseapp.com",
   projectId: "blurimage-eb134",
   storageBucket: "blurimage-eb134.firebasestorage.app",
@@ -176,7 +176,7 @@ function AddMain(){
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
       <header id="header" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-[75%] overflow-hidden m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
+        <div className="relative w-full h-[85%] overflow-hidden m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
           <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle ">
             <h1 className="text-4xl mt-[10%] font-medium text-white ">
               FastBlur
@@ -186,11 +186,11 @@ function AddMain(){
               Make Yourself GDPR Compliant <br /> 
               Protect Your Customers Facial Identity
             </p>
-            <div className="relative w-[75%] h-[30%] lg:h-[20%] m-auto mt-[2%] p-0 bg-transparent gap-4 lg:gap-10 flex flex-col lg:flex-row align-middle justify-center text-center ">
-              <motion.button onClick={() => window.location.href = "/#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[75%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-blue-800 via-blue-900 to-blue-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
+            <div className="relative w-[75%] h-[30%] lg:h-[20%] m-auto mt-[7%] p-0 bg-transparent gap-4 lg:gap-10 flex flex-col lg:flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = "/#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[55%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-blue-800 via-blue-900 to-blue-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
                 <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#cam">Get Started With The Camera</a>
               </motion.button>
-              <motion.button onClick={() => window.location.href = ""} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[22em] h-[35%] lg:h-[75%] m-auto p-0 rounded-xl bg-black border-white border cursor-pointer text-white text-xl font-light flex flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = ""} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[22em] h-[35%] lg:h-[55%] m-auto p-0 rounded-xl bg-black border-white border cursor-pointer text-white text-xl font-light flex flex-row align-middle justify-center text-center ">
                 <img src={github} style={{scale: 0.80}} alt="" />
                 <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center" href="https://github.com/Jamcha123/fastblur">View FastBlur Github Repo</a>
               </motion.button>
