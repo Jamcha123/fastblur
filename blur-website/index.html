@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlurImage - Stay Private, Blur Your Face</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.mjs" crossorigin="anonymous"></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeUFG0sAAAAAFG4rYWD35cyNol8AwepepPhGSDn"></script>
+    <script>
+      function onClick(e) {
+        e.preventDefault();
+        grecaptcha.enterprise.ready(async () => {
+          const token = await grecaptcha.enterprise.execute('6LeUFG0sAAAAAFG4rYWD35cyNol8AwepepPhGSDn', {action: 'LOGIN'});
+        });
+      }
+    </script>
   </head>
   <body class="bg-black">
     <div id="root" class="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center"></div>
-    <script type="module" src="/src/main.jsx"></script>
-    
+    <script type="module" src="/src/main.jsx"></script>    
   </body>
 </html>

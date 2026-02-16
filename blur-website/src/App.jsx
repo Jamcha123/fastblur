@@ -7,9 +7,12 @@ import * as THREE from 'three'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth'
 import {} from 'firebase/ai'
+import {initializeAppCheck, ReCaptchaEnterpriseProvider} from 'firebase/app-check'
 import image from './assets/image.svg'
+import cam from './assets/cam.svg'
 import yunet from './assets/yunet.jpg'
 import haar from './assets/haar.jpg'
+import github from './assets/github.svg'
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import * as FaceAPI from 'face-api.js'
@@ -41,6 +44,11 @@ const config = {
 }
 
 const app = initializeApp(config)
+
+const appcheck = initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider("6LeUFG0sAAAAAFG4rYWD35cyNol8AwepepPhGSDn"), 
+  isTokenAutoRefreshEnabled: true
+})
 
 const auth = getAuth(app)
 auth.useDeviceLanguage()
@@ -86,13 +94,10 @@ function AddNavbar(){
             <motion.div initial={{translateX: 0 + "%"}} animate={{translateX: hover? -25 + "%" : 0 + "%"}} className="relative w-full h-[0.4rem] rounded-md m-auto mt-0 mb-0 p-0 bg-white "></motion.div>
           </motion.div>
           <div className="relative w-[75%] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-evenly text-center ">
-            <h1 className="text-2xl text-white font-bold">
-              FastBlur
-            </h1>
           </div>
         </div>
       </ul>
-      <motion.ul initial={{translateX: -100 + "%"}} animate={{translateX: active? 0 + "%" : -100 + "%"}} transition={{type: "keyframes", duration: 1}} className="fixed left-0 top-0 flex flex-col align-middle justify-center text-center w-[20vh] h-screen m-auto p-0 bg-black  ">
+      <motion.ul initial={{translateX: -100 + "%"}} animate={{translateX: active? 0 + "%" : -100 + "%"}} transition={{type: "keyframes", duration: 1}} className="fixed left-0 top-0 flex flex-col align-middle justify-center text-center w-[30vh] h-screen m-auto p-0 bg-black  ">
         <div className="relative w-full h-[8vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center  ">
           <motion.div onClick={() => setActive(false)} onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)} className="relative w-[3em] cursor-pointer h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center scale-[0.75] ">
             <motion.div initial={{translateX: 0 + "%"}} animate={{translateX: hover? -25 + "%" : 0 + "%"}} className="relative w-full h-[0.4rem] rounded-md m-auto mt-0 mb-0 p-0 bg-white "></motion.div>
@@ -105,9 +110,9 @@ function AddNavbar(){
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#header">Landing Page</a></li>
           </div>
           <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-            <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#">Camera Recognition</a></li>
+            <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#cam">Facial Recognition</a></li>
           </div>
-          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent hidden flex-col align-middle justify-center text-center ">
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#about">About Fastblur</a></li>
           </div>
         </div>
@@ -122,7 +127,7 @@ function AddMain(){
   const videoUploader = async () => {
     const video = document.createElement("video")
     video.style.transform = "translateY(50%)"
-    
+
     const canvas = document.createElement("canvas")
     canvas.style.transform = "translateY(-50%)"
     
@@ -155,9 +160,10 @@ function AddMain(){
         const {originX, originY, width, height} = e.boundingBox
         
         ctx.strokeStyle = "red"
-        ctx.strokeRect(originX, originY, width, height)
-        ctx.fillStyle = "gray"
-        ctx.fillRect(originX, originY, width, height)
+        ctx.filter = "blur(10px)"
+        ctx.strokeRect(originX-originX/2, originY-100, width+200, height+200)
+        ctx.fillStyle = "black"
+        ctx.fillRect(originX-originX/2, originY-100, width+200, height+200)
       })
 
       requestAnimationFrame(detection)
@@ -170,73 +176,32 @@ function AddMain(){
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
       <header id="header" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-[25%] mt-[5%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <h1 className="text-5xl text-white font-medium flex flex-col align-middle justify-center text-center">
-            <p className="flex flex-row align-middle justify-center text-center">FastBlur <strong className="hidden md:block ml-[2%] "> - Hide Your Face</strong></p>
-          </h1>
-        </div>
-        <div className="relative w-full h-[55%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div className="relative w-full overflow-hidden h-full m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-            <div className="relative w-[75%] h-full m-auto p-0 bg-transparent overflow-hidden flex flex-row align-middle justify-center text-center gap-5 ">
-              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent rounded-xl " src={haar} alt="" />
-                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                  <h1 className="text-2xl text-white font-light ">
-                    Haar Like Facial bluring
-                  </h1>
-                </div>
-              </motion.div>
-              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent rounded-xl " src={yunet} alt="" />
-                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                  <h1 className="text-2xl text-white font-light ">
-                    Yunet Facial bluring
-                  </h1>
-                </div>
-              </motion.div>
-              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent rounded-xl " src="" alt="" />
-                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                  <h1 className="text-2xl text-white font-light ">
-                    Yolo Facial bluring
-                  </h1>
-                </div>
-              </motion.div>
-              <motion.div initial={{translateX: 150 + "%"}} animate={{translateX: -150 + "%"}} transition={{type: "keyframes", duration: 35, repeatType: "reverse", ease: "easeInOut", repeat: Infinity}} className="relative w-[75vh] min-w-[75vh] max-w-[75vh] h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                <img className="relative w-full h-[90%] m-auto p-0 bg-transparent rounded-xl " src="" alt="" />
-                <div className="relative w-full h-[10%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-                  <h1 className="text-xl text-white font-light ">
-                    Mediapipe Facial bluring
-                  </h1>
-                </div>
-              </motion.div>
+        <div className="relative w-full h-[75%] overflow-hidden m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
+          <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <h1 className="text-4xl mt-[10%] font-medium text-white ">
+              FastBlur
+            </h1>
+            <p className="text-xl mt-[2%] text-white font-light ">
+              The Fast, Free, Effective Face Bluring App <br />
+              Make Yourself GDPR Compliant <br /> 
+              Protect Your Customers Facial Identity
+            </p>
+            <div className="relative w-[75%] h-[30%] lg:h-[20%] m-auto mt-[2%] p-0 bg-transparent gap-4 lg:gap-10 flex flex-col lg:flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = "/#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[75%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-blue-800 via-blue-900 to-blue-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#cam">Get Started With The Camera</a>
+              </motion.button>
+              <motion.button onClick={() => window.location.href = ""} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[22em] h-[35%] lg:h-[75%] m-auto p-0 rounded-xl bg-black border-white border cursor-pointer text-white text-xl font-light flex flex-row align-middle justify-center text-center ">
+                <img src={github} style={{scale: 0.80}} alt="" />
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center" href="https://github.com/Jamcha123/fastblur">View FastBlur Github Repo</a>
+              </motion.button>
             </div>
           </div>
-        </div>
-        <div className="relative w-full h-[20%] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} onClick={() => {window.location.href = "#cam"}} className="relative w-[13em] h-[3em] m-auto p-0 cursor-pointer bg-slate-950 border-lime-600 border-2 rounded-md text-xl text-white font-light ">
-            Try The Facial Recognition 
-          </motion.button>
         </div>
       </header>
-      <section id="main" className="relative w-full h-[75vh] m-auto p-0 bg-transparent hidden gap-5 flex-col align-middle justify-center text-center ">
+      <section id="cam" className="relative w-full h-[150vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="image" className="relative cursor-pointer w-160 h-120 m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
-            <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
-            <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
-              <h1 className="text-xl text-white font-medium ">
-                Press To Upload Your Images Here (Be Patient, It takes a while) <br />
-                Only .png, .jpeg and .jpg image files <br />
-                I Do Everything Locally (No Storage On A Remote Server) <br />
-              </h1>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="cam" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[75%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
-            <img src={image} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
+          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[90%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+            <img src={cam} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
             <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
               <h1 className="text-xl text-white font-medium ">
                 Press Here To Use Your Web Camera For Real Time Bluring <br />
@@ -246,7 +211,7 @@ function AddMain(){
           </div>
         </div>
       </section>
-      <section id="about" className="relative w-[75%] h-[200vh] min-h-[200vh] max-h-[200vh] md:h-screen md:min-h-screen md:max-h-screen  m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center md:grid md:grid-cols-2 md:grid-row-2 gap-10 ">
+      <section id="about" className="relative w-[75%] h-[200vh] min-h-[200vh] max-h-[200vh] md:h-screen md:min-h-screen md:max-h-screen m-auto p-0 bg-transparent hidden flex-col align-middle justify-center text-center md:hidden md:grid-cols-2 md:grid-row-2 gap-10 ">
         <div className="relative w-full min-h-[50vh] h-[50vh] max-h-[50vh] mt-0 md:mt-auto m-auto p-0 border-2 border-white rounded-xl bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
           <h1 className="text-2xl text-white font-medium mt-[5%] ">
             Fast and Effective
