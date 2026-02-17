@@ -34,7 +34,7 @@ const face_detector = await FaceDetector.createFromOptions(
 await FaceAPI.nets.ssdMobilenetv1.loadFromUri('/models');
 
 const config = {
-  apiKey: "AIzaSyBJCkmrGO_eZMh3x6-EQ8cQXHj7Omy7DTY",
+  apiKey: "",
   authDomain: "blurimage-eb134.firebaseapp.com",
   projectId: "blurimage-eb134",
   storageBucket: "blurimage-eb134.firebasestorage.app",
@@ -223,10 +223,10 @@ function AddMain(){
             </h2>
           </div>
           <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Is Facial Bluring Software</li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Mainly Uses Googles Mediapipe Face Tracking</li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Stores Only On Your Local Device</li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Blurs Every Face In A Image Or Web Cam</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Is Facial Bluring Software</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Mainly Uses Googles Mediapipe Face Tracking</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Stores Only On Your Local Device</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Blurs Every Face In A Image Or Web Cam</li>
           </div>
         </div>
         <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 from-black via-blue-950 to-blue-900 flex flex-col align-middle ">
@@ -236,7 +236,7 @@ function AddMain(){
             </h2>
           </div>
           <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
-            <li className="text-xl font-medium text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Web Camera Web App = Free</li>
+            <li className="text-xl font-medium text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Web Camera Web App = Free</li>
           </div>
         </div>
         <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 to-black via-orange-950 from-orange-900 flex flex-col align-middle ">
@@ -246,10 +246,10 @@ function AddMain(){
             </h2>
           </div>
           <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://chuoling.github.io/mediapipe/">Google's Mediapipe Facial Tracking</a></li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html">OpenCV Haar Like Features</a></li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/geaxgx/depthai_yunet">OpenCV Yunet Facial Tracking</a></li>
-            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/todap/Face-Recognition-using-YoloV8-and-FaceNet">Yolo Facial Tracking</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://chuoling.github.io/mediapipe/">Google's Mediapipe Facial Tracking</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html">OpenCV Haar Like Features</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/geaxgx/depthai_yunet">OpenCV Yunet Facial Tracking</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/todap/Face-Recognition-using-YoloV8-and-FaceNet">Yolo Facial Tracking</a></li>
           </div>
         </div>
       </section>
