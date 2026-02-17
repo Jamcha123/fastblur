@@ -112,7 +112,7 @@ function AddNavbar(){
           <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#cam">Facial Recognition</a></li>
           </div>
-          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent hidden flex-col align-middle justify-center text-center ">
+          <div className="relative w-full h-[10vh] m-auto mt-[3%] mb-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <li className="text-2xl font-light text-white cursor-pointer underline underline-offset-2 "><a href="#about">About Fastblur</a></li>
           </div>
         </div>
@@ -159,10 +159,8 @@ function AddMain(){
       facial_detect.detections.forEach((e) => {
         const {originX, originY, width, height} = e.boundingBox
         
-        ctx.strokeStyle = "red"
         ctx.filter = "blur(10px)"
-        ctx.strokeRect(originX-originX/2, originY-100, width+200, height+200)
-        ctx.fillStyle = "black"
+        ctx.fillStyle = "rgba(255, 255, 255, 1)";
         ctx.fillRect(originX-originX/2, originY-100, width+200, height+200)
       })
 
@@ -175,7 +173,7 @@ function AddMain(){
   }
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-      <header id="header" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+      <header id="header" className="relative w-full h-[90vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-[85%] overflow-hidden m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
           <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle ">
             <h1 className="text-4xl mt-[10%] font-medium text-white ">
@@ -190,6 +188,9 @@ function AddMain(){
               <motion.button onClick={() => window.location.href = "/#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[55%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-blue-800 via-blue-900 to-blue-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
                 <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#cam">Get Started With The Camera</a>
               </motion.button>
+              <motion.button onClick={() => window.location.href = "/#about"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[55%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-green-800 via-green-900 to-green-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#about">About FastBlur</a>
+              </motion.button>
               <motion.button onClick={() => window.location.href = ""} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[22em] h-[35%] lg:h-[55%] m-auto p-0 rounded-xl bg-black border-white border cursor-pointer text-white text-xl font-light flex flex-row align-middle justify-center text-center ">
                 <img src={github} style={{scale: 0.80}} alt="" />
                 <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center" href="https://github.com/Jamcha123/fastblur">View FastBlur Github Repo</a>
@@ -198,9 +199,12 @@ function AddMain(){
           </div>
         </div>
       </header>
-      <section id="cam" className="relative w-full h-[150vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
+      <section id="cam" className="relative w-full h-[110vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
         <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[90%] h-[75%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+          <div className="relative w-full h-[15%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h2 className="text-2xl text-white font-medium ">FastBlur Facial Recognition Example</h2>
+          </div>
+          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[90%] h-[85%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
             <img src={cam} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
             <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
               <h1 className="text-xl text-white font-medium ">
@@ -211,26 +215,42 @@ function AddMain(){
           </div>
         </div>
       </section>
-      <section id="about" className="relative w-[75%] h-[200vh] min-h-[200vh] max-h-[200vh] md:h-screen md:min-h-screen md:max-h-screen m-auto p-0 bg-transparent hidden flex-col align-middle justify-center text-center md:hidden md:grid-cols-2 md:grid-row-2 gap-10 ">
-        <div className="relative w-full min-h-[50vh] h-[50vh] max-h-[50vh] mt-0 md:mt-auto m-auto p-0 border-2 border-white rounded-xl bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
-          <h1 className="text-2xl text-white font-medium mt-[5%] ">
-            Fast and Effective
-          </h1>
+      <section id="about" className="relative w-[90%] h-[175vh] lg:h-screen m-auto p-0 bg-transparent flex flex-col lg:flex-row align-middle justify-center text-center ">
+        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 to-black via-lime-950 from-lime-900 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h2 className="text-2xl text-white font-medium ">
+              About FastBlur
+            </h2>
+          </div>
+          <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Is Facial Bluring Software</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Mainly Uses Googles Mediapipe Face Tracking</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Stores Only On Your Local Device</li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Blurs Every Face In A Image Or Web Cam</li>
+          </div>
         </div>
-        <div className="relative w-full min-h-[50vh] h-[50vh] max-h-[50vh] mt-0 md:mt-auto m-auto p-0 border-2 border-white rounded-xl bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
-          <h1 className="text-2xl text-white font-medium mt-[5%] ">
-            What FastBlur Offers
-          </h1>
+        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 from-black via-blue-950 to-blue-900 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h2 className="text-2xl text-white font-semibold ">
+              FastBlur Pricing
+            </h2>
+          </div>
+          <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <li className="text-xl font-medium text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent ">FastBlur Web Camera Web App = Free</li>
+          </div>
         </div>
-        <div className="relative w-full min-h-[50vh] h-[50vh] max-h-[50vh] mt-0 md:mt-auto m-auto p-0 border-2 border-white rounded-xl bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
-          <h1 className="text-2xl text-white font-medium mt-[5%] ">
-            Model Types 
-          </h1>
-        </div>
-        <div className="relative w-full min-h-[50vh] h-[50vh] max-h-[50vh] mt-0 md:mt-auto m-auto p-0 border-2 border-white rounded-xl bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
-          <h1 className="text-2xl text-white font-medium mt-[5%] ">
-            Cost Efficient
-          </h1>
+        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 to-black via-orange-950 from-orange-900 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h2 className="text-2xl text-white font-medium ">
+              FastBlur Models
+            </h2>
+          </div>
+          <div className="relative w-full h-[80%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://chuoling.github.io/mediapipe/">Google's Mediapipe Facial Tracking</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html">OpenCV Haar Like Features</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/geaxgx/depthai_yunet">OpenCV Yunet Facial Tracking</a></li>
+            <li className="text-xl font-light text-gray-300 w-[75%] h-[10%] m-auto mt-0 mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/todap/Face-Recognition-using-YoloV8-and-FaceNet">Yolo Facial Tracking</a></li>
+          </div>
         </div>
       </section>
     </div>
