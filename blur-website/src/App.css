@@ -9,12 +9,12 @@
     animation: value 30s ease-in-out infinite;
 }
 
-h1, p, h2, h3, h4{
+h1, p, h2, h3, h4, li a{
     font-family: "DM Mono", monospace;
     font-style: normal;
 }
 
-li a, button, input, li{
+button, input, li{
     font-family: "Raleway", sans-serif;
     font-style: normal;
 }

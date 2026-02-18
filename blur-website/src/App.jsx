@@ -12,6 +12,7 @@ import image from './assets/image.svg'
 import cam from './assets/cam.svg'
 import yunet from './assets/yunet.jpg'
 import haar from './assets/haar.jpg'
+import selfie from './assets/selfie.jpg'
 import github from './assets/github.svg'
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
@@ -123,6 +124,48 @@ function AddNavbar(){
   )
 }
 
+function AddHeader(){
+  const [active, setActive] = useState([true, false, false])
+  return(
+    <div className="relativ w-full h-full m-auto mt-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center overflow-hidden">
+      <div className="relative w-full h-[65%] m-auto mt-[10vh] p-0 bg-transparent flex flex-col align-middle justify-center text-center overflow-hidden ">
+        <div id="images" className="relative w-[75%] h-[60%] m-auto p-0 bg-transparent rounded-xl hidden flex-col align-middle justify-center text-center ">
+          <motion.img initial={{display: "none"}} animate={{display: active[0]? "block" : "none"}} src={selfie} className="relative w-full h-[80%] m-auto p-0 bg-transparent rounded-xl " alt="" />
+          <motion.img initial={{display: "none"}} animate={{display: active[1]? "block" : "none"}} src={yunet} className="relative w-full h-[80%] m-auto p-0 bg-transparent rounded-xl " alt="" />
+          <motion.img initial={{display: "none"}} animate={{display: active[2]? "block" : "none"}} src={haar} className="relative w-full h-[80%] m-auto p-0 bg-transparent rounded-xl " alt="" />
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-start text-start ">
+            <motion.button onClick={() => setActive([true, false, false])} initial={{scale: 1, backgroundColor: "transparent"}} animate={{backgroundColor: active[0]? "white" : "transparent"}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative cursor-pointer w-[1.5em] h-[1.5em] m-auto ml-[3%] mr-0 p-0 rounded-full border-white border-2 "></motion.button>
+            <motion.button onClick={() => setActive([false, true, false])} initial={{scale: 1, backgroundColor: "transparent"}} animate={{backgroundColor: active[1]? "white" : "transparent"}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative cursor-pointer w-[1.5em] h-[1.5em] m-auto ml-[3%] mr-0 p-0 rounded-full border-white border-2 "></motion.button>
+            <motion.button onClick={() => setActive([false, false, true])} initial={{scale: 1, backgroundColor: "transparent"}} animate={{backgroundColor: active[2]? "white" : "transparent"}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative cursor-pointer w-[1.5em] h-[1.5em] m-auto ml-[3%] mr-0 p-0 rounded-full border-white border-2 "></motion.button>
+          </div>
+        </div>
+        <div className="relative w-[75%] h-[40%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <h1 className="text-2xl text-white font-medium ">
+            Fastblur - Annoymize Faces
+          </h1>
+          <p className="text-xl text-white font-light mt-[2%] ">
+            Fastblur is a fast, affordable, effective face annoymizer <br />
+            You can use the free webcam face blurer here: <a href="#cam" className="text-violet-500 underline underline-offset-2">Free Fastblur Webcam App</a>
+          </p>
+        </div>
+      </div>
+      <div className="relative w-full h-[35%] m-auto mt-0 p-0 bg-transparent grid grid-cols-1 lg:grid-cols-2 grid-rows-2 overflow-x-auto overflow-y-hidden ">
+        <motion.button onClick={() => window.location.href = "#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[20em] h-[3em] m-auto p-0 cursor-pointer shadow-md shadow-white bg-slate-950 border-2 border-white flex flex-col align-middle justify-center text-center text-white text-xl font-light ">
+          <a href="#cam">Get Started With Webcam Face Bluring</a>
+        </motion.button>
+        <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[20em] h-[3em] m-auto p-0 cursor-pointer bg-slate-900 border-white shadow-md shadow-white border-2 flex flex-row align-middle justify-center text-center text-white text-xl font-light ">
+          <a href="https://github.com/Jamcha123/fastblur" className="relative w-full h-full m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center">
+            <img src={github} style={{scale: 0.5}} alt="" />
+            <p className="flex flex-col align-middle justify-center text-center text-white">
+              FastBlur Github Repo
+            </p>
+          </a>
+        </motion.button>
+      </div>
+    </div>
+  )
+}
+
 function AddMain(){
   const videoUploader = async () => {
     const video = document.createElement("video")
@@ -173,50 +216,11 @@ function AddMain(){
   }
   return(
     <div className="relative z-98 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-      <header id="header" className="relative w-full h-[90vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-[85%] overflow-hidden m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-          <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle ">
-            <h1 className="text-4xl mt-[10%] font-medium text-white ">
-              FastBlur
-            </h1>
-            <p className="text-xl mt-[2%] text-white font-light ">
-              The Fast, Free, Effective Face Bluring App <br />
-              Make Yourself GDPR Compliant <br /> 
-              Protect Your Customers Facial Identity
-            </p>
-            <div className="relative w-[75%] h-[30%] lg:h-[20%] m-auto mt-[7%] p-0 bg-transparent gap-4 lg:gap-10 flex flex-col lg:flex-row align-middle justify-center text-center ">
-              <motion.button onClick={() => window.location.href = "/#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[55%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-blue-800 via-blue-900 to-blue-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
-                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#cam">Get Started With The Camera</a>
-              </motion.button>
-              <motion.button onClick={() => window.location.href = "/#about"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[15em] h-[35%] lg:h-[55%] m-auto p-0 border-white border rounded-xl bg-linear-60 from-green-800 via-green-900 to-green-950 cursor-pointer text-white text-xl font-light flex flex-col align-middle justify-center text-center ">
-                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="#about">About FastBlur</a>
-              </motion.button>
-              <motion.button onClick={() => window.location.href = ""} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-full lg:w-[22em] h-[35%] lg:h-[55%] m-auto p-0 rounded-xl bg-black border-white border cursor-pointer text-white text-xl font-light flex flex-row align-middle justify-center text-center ">
-                <img src={github} style={{scale: 0.80}} alt="" />
-                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center" href="https://github.com/Jamcha123/fastblur">View FastBlur Github Repo</a>
-              </motion.button>
-            </div>
-          </div>
-        </div>
+      <header id="header" className="relative w-full h-[95vh] mb-[5%] lg:mb-0 md:h-[90vh] lg:h-[80vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center overflow-hidden ">
+        <AddHeader></AddHeader>
       </header>
-      <section id="cam" className="relative w-full h-[110vh] m-auto p-0 bg-transparent flex gap-5 flex-col align-middle justify-center text-center ">
-        <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-          <div className="relative w-full h-[15%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-            <h2 className="text-2xl text-white font-medium ">FastBlur Facial Recognition Example</h2>
-          </div>
-          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[90%] h-[85%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
-            <img src={cam} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
-            <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
-              <h1 className="text-xl text-white font-medium ">
-                Press Here To Use Your Web Camera For Real Time Bluring <br />
-                I Do Everything Locally (No Storage On A Remote Server) <br />
-              </h1>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="about" className="relative w-[90%] h-[175vh] lg:h-screen m-auto p-0 bg-transparent flex flex-col lg:flex-row align-middle justify-center text-center ">
-        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 to-black via-lime-950 from-lime-900 flex flex-col align-middle ">
+      <section id="about" className="relative w-[90%] h-[175vh] lg:h-screen m-auto p-0 z-11 bg-transparent gap-5 flex flex-col lg:flex-row align-middle justify-center text-center ">
+        <div className="relative w-full lg:w-[30%] h-[75vh] m-auto p-0 bg-linear-60 to-black via-lime-950 from-lime-900 flex flex-col align-middle ">
           <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <h2 className="text-2xl text-white font-medium ">
               About FastBlur
@@ -229,7 +233,7 @@ function AddMain(){
             <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Blurs Every Face In A Image Or Web Cam</li>
           </div>
         </div>
-        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 from-black via-blue-950 to-blue-900 flex flex-col align-middle ">
+        <div className="relative w-full lg:w-[30%] h-[75vh] m-auto p-0 bg-linear-60 from-black via-blue-950 to-blue-900 flex flex-col align-middle ">
           <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <h2 className="text-2xl text-white font-semibold ">
               FastBlur Pricing
@@ -239,7 +243,7 @@ function AddMain(){
             <li className="text-xl font-medium text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent ">FastBlur Web Camera Web App = Free</li>
           </div>
         </div>
-        <div className="relative w-full lg:w-[30%] h-[50vh] lg:h-[75vh] m-auto p-0 bg-linear-60 to-black via-orange-950 from-orange-900 flex flex-col align-middle ">
+        <div className="relative w-full lg:w-[30%] h-[75vh] m-auto p-0 bg-linear-60 to-black via-orange-950 from-orange-900 flex flex-col align-middle ">
           <div className="relative w-full h-[20%] mt-0 mb-0 m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <h2 className="text-2xl text-white font-medium ">
               FastBlur Models
@@ -250,6 +254,23 @@ function AddMain(){
             <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html">OpenCV Haar Like Features</a></li>
             <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/geaxgx/depthai_yunet">OpenCV Yunet Facial Tracking</a></li>
             <li className="text-xl font-light text-gray-300 w-[75%] h-fit m-auto mt-[5%] mb-0 p-0 bg-transparent underline underline-offset-2 "><a href="https://github.com/todap/Face-Recognition-using-YoloV8-and-FaceNet">Yolo Facial Tracking</a></li>
+          </div>
+        </div>
+      </section>
+      <section id="cam" className="relative w-full h-[110vh] m-auto p-0 bg-transparent z-11 flex gap-5 flex-col align-middle justify-center text-center ">
+        <div className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+          <div className="relative w-full h-[15%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h2 className="text-2xl text-white font-medium ">FastBlur Facial Recognition Example</h2>
+          </div>
+          <div id="video" onClick={videoUploader} className="relative cursor-pointer overflow-hidden w-[90%] h-[85%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+            <img src={cam} style={{scale: 0.5}} className="relative w-full h-[50%] m-auto p-0 bg-transparent " alt="" />
+            <div className="relative cursor-pointer w-full h-[50%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+              <h1 className="text-xl text-white font-medium ">
+                Press Here To Use Your Web Camera For Real Time Bluring <br />
+                It is 100% free to use the fastblur web cam as a test, just press <br />
+                I Do Everything Locally (No Storage On A Remote Server) <br />
+              </h1>
+            </div>
           </div>
         </div>
       </section>
