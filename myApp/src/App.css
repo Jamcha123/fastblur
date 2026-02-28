@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import "tailwindcss";
+
+@layer components{
+  .dots{
+    @apply absolute -translate-x-[50%] -translate-y-[50%] w-[2em] h-[2em] m-auto p-0 bg-white
+    rounded-full shadow-white shadow-md duration-500 transition-all
+  }
+}
+
+h1, p, button, a, li{
+  font-family: "Raleway", sans-serif;
+}
+
+button a{
+  font-family: "Rubik", monospace;
+}
+
+video{
+  height: 100%;
+  width: 100%; 
+  position: absolute;
+  object-fit: fill;
+  transform: translateY(0%);
+}
+#tracker{
+  transform: translateY(0%);
+  z-index: 99;
+}
