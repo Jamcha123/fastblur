@@ -61,7 +61,6 @@ const appcheck = initializeAppCheck(app, {
 })
 
 const storage = getStorage(app)
-const refs = ref(storage, "gs://blurimage-eb134.firebasestorage.app/haar_python.zip")
 
 const link1 = await getDownloadURL(ref(storage, "gs://blurimage-eb134.firebasestorage.app/haar_python.zip"))
 const link2 = await getDownloadURL(ref(storage, "gs://blurimage-eb134.firebasestorage.app/yunet_python.zip"))
@@ -183,22 +182,39 @@ function AddMain(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         if(detection.detections.length != 0){
-          console.log(detection.detections)
           detection.detections.forEach((e) => {
             const {originX, originY, width, height} = e.boundingBox
-
-            ctx.strokeStyle = "gray"
-            ctx.lineWidth = 2
             ctx.fillStyle = "gray"
             ctx.filter = "blur(5px)"
-            ctx.fillRect(originX-50, originY-150, width+100, height+200)
-            ctx.strokeRect(originX-50, originY-150, width+100, height+200)
+            ctx.fillRect(originX-100, originY-200, width+200, height+400)
           })
           document.getElementById("videos").appendChild(canvas)
         }
         requestAnimationFrame(facial_detection)
     }
   }
+
+  const buy_software = async () => {
+    const id = new URL(window.location.href).searchParams.get("token_id")
+    const refs = ref(storage, id)
+
+    const link = await getDownloadURL(refs)
+    
+    const path = new URL(link).pathname.split("/")[5]
+
+    let download_code = document.createElement("a")
+    download_code.href = link
+    download_code.download = path
+    download_code.click()
+
+    const url = new URL(window.location.href)
+    url.searchParams.delete("token_id")
+
+    window.history.replaceState(null, "", window.location.pathname);
+  }
+  (async () => {
+    await buy_software()
+  })()
   return(
     <div className="relative z-4 w-full h-fit m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
       <header className="relative w-full h-[90vh] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
@@ -206,97 +222,116 @@ function AddMain(){
           <div className="relative w-full h-[30%] mt-[15%] mb-0 m-auto ml-0 mr-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
             <h1 className="text-3xl text-center md:text-start ml-0 md:ml-[5%] text-slate-200 mb-0 mt-0 ">Fastblur - Blur Your Face</h1>
             <p className="text-2xl text-center md:text-start ml-0 md:ml-[5%] text-white mb-0 mt-[2%] ">
-              Fastblur - A effective and fast way to annoymize faces <br />
+              Fastblur - A effective and fast way to annoymize faces for GDPR and other laws<br />
               Fastblur - Free to use but you can buy the python code 
             </p>
           </div>
           <div className="relative w-full h-[20em] md:h-[3em] mt-0 mb-0 m-auto ml-0 mr-0 p-0 bg-transparent flex flex-col md:flex-row align-middle md:justify-start justify-center md:text-start text-center ">
-            <motion.button onClick={() => window.location.href = "#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] bg-lime-950 underline underline-offset-2 cursor-pointer flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
+            <motion.button onClick={() => window.location.href = "#cam"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] bg-slate-900 border-lime-500 border-2 underline underline-offset-2 cursor-pointer flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
               <a className="w-full h-full flex flex-col align-middle justify-center text-center relative m-auto p-0 " href="#cam">Fastblur Camera</a>
             </motion.button>
-            <motion.button onClick={() => window.location.href = "https://github.com/Jamcha123/fastblur"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] mt-[10%] md:mt-0 md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] underline underline-offset-2 cursor-pointer bg-lime-900 flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
+            <motion.button onClick={() => window.location.href = "https://github.com/Jamcha123/fastblur"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] mt-[10%] md:mt-0 md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] underline underline-offset-2 cursor-pointer bg-slate-900 border-orange-500 border-2 flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
               <a className="w-full h-full flex flex-col align-middle justify-center text-center relative m-auto p-0 " href="https://github.com/Jamcha123/fastblur">Fastblur Github Repo</a>
             </motion.button>
-            <motion.button onClick={() => window.location.href = "#models"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] mt-[10%] md:mt-0 md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] underline underline-offset-2 cursor-pointer bg-lime-800 flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
-              <a className="w-full h-full flex flex-col align-middle justify-center text-center relative m-auto p-0 " href="#models">Buy the Fastblur Python Software</a>
+            <motion.button onClick={() => window.location.href = "#pricing"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-100 m-auto md:ml-[5%] mt-[10%] md:mt-0 md:mr-0 ml-auto mr-auto p-0 h-[5em] md:h-[3em] underline underline-offset-2 cursor-pointer bg-slate-900 border-sky-500 border-2 flex flex-col align-middle justify-center text-center text-xl text-white font-light " >
+              <a className="w-full h-full flex flex-col align-middle justify-center text-center relative m-auto p-0 " href="#pricing">Buy the Fastblur Python Software</a>
             </motion.button>
           </div>
         </div>
       </header>
       <section id="about" className="relative w-full h-[75vh] m-auto p-0 bg-transparent flex flex-col align-middle ">
-        <div className="relative w-[75%] h-[75%] m-auto mt-0 mb-0 p-0 bg-linear-60 from-slate-950 via-slate-900 to-slate-800 rounded-2xl flex flex-col align-middle ">
-          <h1 className="text-center md:text-start md:ml-[5%] ml-0 text-3xl text-white font-medium mt-[10%] mb-0 ">
+        <div className="relative w-[95%] h-full overflow-x-hidden overflow-y-auto m-auto mt-0 mb-0 p-0 bg-linear-60 from-slate-950 via-slate-900 to-slate-800 rounded-2xl flex flex-col align-middle ">
+          <h1 className="text-center md:text-start m-auto w-full mt-[10%] mb-0 md:ml-[5%] ml-0 text-3xl text-white font-medium ">
             About Fastblur
           </h1>
-          <p className="text-center md:text-start md:ml-[5%] ml-0 text-2xl text-gray-200 font-light mt-[5%] mb-0 ">
+          <p className="text-center md:text-start m-auto mt-[5%] mb-0 md:ml-[5%] ml-0 text-2xl text-gray-200 font-light ">
+            Fastblur offers a free example that uses your web cam here: <a href="#cam" className="text-violet-400 underline underline-offset-2">example camera</a> <br /><br />
             Fastblur is software for face bluring using computer vision and face tracking. <br /><br />
-            Fastblur has two options: Image uploading and/or use your webcam. <br /><br />
+            Fastblur offers a free webcam but you can also pay the python code so you can run it yourself. <br /><br />
             Fastblur gives you access to 3 models: haar like features, yunet or mediapipe (all of them based on opencv)
           </p>
-          <ul className="relative w-full h-fit m-auto mt-[5%] mb-0 hidden flex-col align-middle justify-center text-center ">
-            <li className="text-2xl text-white font-medium ml-[5%] text-start">Fastblur offers software code to buy and to download to get the python file</li>
-            <li className="text-xl text-gray-200 font-medium ml-[5%] mt-[3%] text-start">Fastblur Haar-like Features code price: $0.50 per python code</li>
-            <li className="text-xl text-gray-200 font-medium ml-[5%] mt-[3%] text-start">Fastblur Yunet code price: $1.00 per python code</li>
-            <li className="text-xl text-gray-200 font-medium ml-[5%] mt-[3%] text-start">Fastblur Mediapipe code price: $1.50 per python code</li>
-          </ul>
         </div>
       </section>
       <section id="cam" className="relative w-full h-[125vh] overflow-hidden m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-        <div onClick={webTrack} id="videos" className="relative w-[75%] h-[80%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
+        <div onClick={webTrack} id="videos" className="relative w-[95%] rounded-2xl h-[80%] m-auto p-0 bg-transparent border-white border-2 border-dashed flex flex-col align-middle justify-center text-center ">
           <div className="relative w-full h-[40%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
             <img className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " src={camera} style={{scale: 0.75, margin: 0}} alt="" />
           </div>
           <div className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
-            <h1 className="text-3xl text-white font-medium m-0">Press to blur your face using your web cam</h1>
+            <h1 className="text-3xl text-white font-medium m-0">Press here to blur your face using your web cam</h1>
             <p className="text-3xl text-white font-light">This is just an example of the software <br /> <br /> I do <strong>NOT</strong> store any data, its all local</p>
           </div>
         </div>
       </section>
-      <section id="models" className="relative w-full h-[150vh] m-auto p-0 bg-transparent flex flex-col gap-20 align-middle justify-center text-center ">
-        <div className="relative w-[75%] h-[50vh] m-auto p-0 bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle justify-center text-center ">
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-            <h1 className="text-2xl text-white font-medium flex flex-col align-middle justify-center text-center ">
-              Fastblur Haar Like Features Python Code
-            </h1>
+      <section id="pricing" className="relative w-full h-[300vh] lg:h-screen m-auto p-0 bg-transparent flex flex-col lg:flex-row gap-10 align-middle justify-center text-center ">
+        <div className="relative w-[90%] lg:w-[50vh] m-auto p-0 h-[70vh] bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
+            <h1 className="mt-[5%] mb-0 text-3xl text-white font-medium">Fastblur Haar Like Software</h1>
           </div>
-          <div className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center "></div>          
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle md:justify-end justify-center md:text-end text-center">
-            <div className="relative w-[75%] md:w-[35%] h-full m-auto ml-0 mr-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-              <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[75%] h-[3em] cursor-pointer underline underline-offset-2 m-auto p-0 border-2 border-orange-800 bg-black text-white text-xl font-light ">
-                Buy Software
-              </motion.button>
+          <ul className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <li className="text-2xl text-white mt-[5%] font-medium">Fastblur Haar Like Features</li>
+            <li className="text-xl text-white mt-[5%] font-light">Fast: less than a minute</li>
+            <li className="text-xl text-white mt-[5%] font-light">Price For Software: $0.50 onetime</li>
+            <li className="text-xl text-white mt-[5%] font-light">Run locally</li>
+            <li className="text-xl text-white mt-[5%] font-light">The most amount of false positives of the three models</li>
+            <li className="text-xl text-violet-500 mt-[5%] font-light underline underline-offset-2 "><a href="https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html">Haar Like Docs</a></li>
+          </ul>
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
+            <div className="relative w-full h-fit m-auto p-0 bg-transparent flex flex-col md:flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = "https://checkout-qrp7kv22mq-uc.a.run.app?type=haar"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[10em] h-[3em] underline underline-offset-2 cursor-pointer m-auto md:ml-0 md:mr-[5%] p-0 bg-slate-900 border-sky-500 border-2 flex flex-col align-middle justify-center text-center font-medium text-white text-xl ">
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="https://checkout-qrp7kv22mq-uc.a.run.app?type=haar">Buy Software</a>
+              </motion.button> 
+              <p className="text-xl text-gray-300 font-light flex flex-col align-middle justify-center text-center mt-[3%] md:mt-0">
+                ($0.50 onetime price)
+              </p>
             </div>
-          </div>         
+          </div>
         </div>
-        <div className="relative w-[75%] h-[50vh] m-auto p-0 bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle justify-center text-center ">
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-            <h1 className="text-2xl text-white font-medium flex flex-col align-middle justify-center text-center ">
-              Fastblur Yunet Python Code
-            </h1>
+        <div className="relative w-[90%] lg:w-[50vh] m-auto p-0 h-[70vh] bg-linear-60 from-slate-800 via-slate-900 to-slate-950 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
+            <h1 className="text-3xl text-white font-medium">Fastblur Yunet Software</h1>
           </div>
-          <div className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center "></div>          
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center md:justify-end md:text-end ">
-            <div className="relative w-[75%] md:w-[35%] h-full m-auto ml-0 mr-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-              <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[75%] h-[3em] cursor-pointer underline underline-offset-2 m-auto p-0 border-2 border-orange-800 bg-black text-white text-xl font-light ">
-                Buy Software
-              </motion.button>
+          <ul className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-col align-middle ">
+            <li className="text-2xl text-white mt-[5%] font-medium">Fastblur Yunet Features</li>
+            <li className="text-xl text-white mt-[5%] font-light">Fast: less than a minute</li>
+            <li className="text-xl text-white mt-[5%] font-light">Price For Software: $1.0 onetime</li>
+            <li className="text-xl text-white mt-[5%] font-light">Run locally</li>
+            <li className="text-xl text-white mt-[5%] font-light">Medium amount of false positives of the three models</li>
+            <li className="text-xl text-violet-500 mt-[5%] font-light underline underline-offset-2 "><a href="https://github.com/geaxgx/depthai_yunet">Yunet Docs</a></li>
+          </ul>
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
+            <div className="relative w-full h-fit m-auto p-0 bg-transparent flex flex-col md:flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = "https://checkout-qrp7kv22mq-uc.a.run.app?type=yunet"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[10em] h-[3em] underline underline-offset-2 cursor-pointer m-auto md:ml-0 md:mr-[5%] p-0 bg-slate-900 border-orange-500 border-2 flex flex-col align-middle justify-center text-center font-medium text-white text-xl ">
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="https://checkout-qrp7kv22mq-uc.a.run.app?type=yunet">Buy Software</a>
+              </motion.button> 
+              <p className="text-xl text-gray-300 font-light flex flex-col align-middle justify-center text-center mt-[3%] md:mt-0">
+                ($1.00 onetime price)
+              </p>
             </div>
-          </div>         
+          </div>
         </div>
-        <div className="relative w-[75%] h-[50vh] m-auto p-0 bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle justify-center text-center ">
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center ">
-            <h1 className="text-2xl text-white font-medium flex flex-col align-middle justify-center text-center ">
-              Fastblur Mediapipe Python Code
-            </h1>
+        <div className="relative w-[90%] lg:w-[50vh] m-auto p-0 h-[70vh] bg-linear-60 from-slate-950 via-slate-900 to-slate-800 flex flex-col align-middle ">
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
+            <h1 className="text-3xl text-white font-medium">Fastblur Mediapipe Software</h1>
           </div>
-          <div className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center "></div>          
-          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-row align-middle justify-center text-center md:justify-end md:text-end ">
-            <div className="relative w-[75%] md:w-[35%] h-full m-auto ml-0 mr-0 p-0 bg-transparent flex flex-col align-middle justify-center text-center ">
-              <motion.button initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[75%] h-[3em] cursor-pointer underline underline-offset-2 m-auto p-0 border-2 border-orange-800 bg-black text-white text-xl font-light ">
-                Buy Software
-              </motion.button>
+          <ul className="relative w-full h-[60%] m-auto p-0 bg-transparent flex flex-col align-middle">
+            <li className="text-2xl text-white mt-[5%] font-medium">Fastblur Mediapipe Features</li>
+            <li className="text-xl text-white mt-[5%] font-light">Fast: less than a minute</li>
+            <li className="text-xl text-white mt-[5%] font-light">Price For Software: $1.5 onetime</li>
+            <li className="text-xl text-white mt-[5%] font-light">Least amount of false positives of the three models</li>
+            <li className="text-xl text-white mt-[5%] font-light">Run locally</li>
+            <li className="text-xl text-violet-500 mt-[5%] font-light underline underline-offset-2 "><a href="https://ai.google.dev/edge/mediapipe/solutions/guide">Mediapipe Docs</a></li>
+          </ul>
+          <div className="relative w-full h-[20%] m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center">
+            <div className="relative w-full h-fit m-auto p-0 bg-transparent flex flex-col md:flex-row align-middle justify-center text-center ">
+              <motion.button onClick={() => window.location.href = "https://checkout-qrp7kv22mq-uc.a.run.app?type=mediapipe"} initial={{scale: 1}} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} transition={{type: "spring", duration: 1}} className="relative w-[10em] h-[3em] underline underline-offset-2 cursor-pointer m-auto md:ml-0 md:mr-[5%] p-0 bg-slate-900 border-lime-500 border-2 flex flex-col align-middle justify-center text-center font-medium text-white text-xl ">
+                <a className="relative w-full h-full m-auto p-0 bg-transparent flex flex-col align-middle justify-center text-center " href="https://checkout-qrp7kv22mq-uc.a.run.app?type=mediapipe">Buy Software</a>
+              </motion.button> 
+              <p className="text-xl text-gray-300 font-light flex flex-col align-middle justify-center text-center mt-[3%] md:mt-0">
+                ($1.50 onetime price)
+              </p>
             </div>
-          </div>         
+          </div>
         </div>
       </section>
     </div>
